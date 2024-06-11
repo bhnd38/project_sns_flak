@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .signup-container {
+            display: flex;
+            justify-content: center;
+            align-items: stretch; /* 자식 요소들이 부모 높이만큼 늘어나게 함 */
+            width: 800px; /* 전체 너비를 줄임 */
+            max-width: none; /* 적당한 최대 너비 설정 */
+            margin: auto; /* 상하좌우 자동 마진으로 가운데 정렬 */
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* 컨테이너에 그림자 추가 */
+        }
+        .signup-image, .signup-form {
+            flex: 2; /* 두 자식 요소가 같은 비율로 너비를 차지하도록 설정 */
+        }
+        .signup-image {
+            background: url('static/image/flak.png') no-repeat center center;
+            background-size: cover;
+        }
+        .signup-form {
+            max-width: 800px; /* 회원가입 폼의 최대 너비를 늘림 */
+            margin: 20px;
+            padding: 40px;
+            background: #fff;
+        }
+        .signup-form input[type="text"],
+        .signup-form input[type="password"],
+        .signup-form input[type="email"] { /* 이메일 입력 필드 추가 */
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+        .signup-form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+        .signup-form input[type="submit"]:hover {
+            opacity:1;
+        }
+        .signup-form a {
+            color: dodgerblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-image"></div>
+        <div class="signup-form">
+            <form action="/signup" method="post">
+                Username: <input type="text" name="username"><br>
+                Email: <input type="email" name="email"><br> <!-- 이메일 필드 추가 -->
+                Password: <input type="password" name="password"><br>
+                <input type="submit" value="Sign Up">
+            </form>
+            <a href="/login">Login</a>
+        </div>
+    </div>
+</body>
+</html>

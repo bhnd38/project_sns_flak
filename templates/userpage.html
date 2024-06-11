@@ -1,0 +1,208 @@
+{% extends "layout.html" %}
+{% block title %}
+Welcome!
+{% endblock %}
+{% block main %}
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+  .user-profile {
+    display: flex;
+    align-items: center; /* 이미지와 사용자 이름을 세로 중앙 정렬 */
+    margin-bottom: 10px; /* 프로필과 포스트 이미지 사이의 간격 */
+  }
+  
+  .profile-pic {
+    width: 50px; /* 프로필 사진의 크기 */
+    height: 50px; /* 프로필 사진의 크기 */
+    border-radius: 50%; /* 프로필 사진을 원형으로 만듦 */
+    object-fit: cover; /* 이미지 비율을 유지하면서 요소에 맞게 조절 */
+    margin-right: 10px; /* 프로필 사진과 사용자 이름 사이의 간격 */
+    margin-left: 20px;
+  }
+  
+  .username {
+    font-weight: bold; /* 사용자 이름을 굵게 표시 */
+    margin-right: auto;
+  }
+  .container {
+    display: flex;
+    height: 100%;
+  }
+  .sidebar-left, .sidebar-right {
+    width: 20%; /* 좌우 사이드바 너비 */
+    overflow-y: auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-right: 1px solid #ddd; /* 오른쪽에 연한 회색 선 추가 */
+  }
+  .content {
+    flex: 3; /* 중앙 콘텐츠 영역 너비 조정 */
+    overflow-y: auto;
+    background-color: white;
+    padding: 20px;
+    border-left: 1px solid #ddd; /* 왼쪽에 연한 회색 선 추가 */
+  }
+  .post {
+    background-color: white;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    overflow: hidden; /* post 내부의 내용이 넘칠 경우 숨김 처리 */
+    box-sizing: border-box; /* padding과 border를 포함한 크기로 지정 */
+    
+  }
+  .posted {
+    background-color: rgba(215, 210, 210, 0.686);
+    border-radius: 10px;
+  }
+
+  .posted img {
+    margin: auto;
+    
+  }
+  .post img {
+    display: flex;
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px; /* 이미지와 post-content 사이의 간격 추가 */
+  }
+  .profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .profile img {
+    width: 50px; /* 프로필 이미지 크기 */
+    height: 50px; /* 프로필 이미지 크기 */
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .user-id, .profile-name {
+    margin: 10px 0;
+  }
+  .comments {
+    float: left;
+    clear: both; /* float 속성을 사용한 정렬을 초기화 */
+    display: flex; 
+    flex-direction: column;
+    margin-left:20px;
+    margin-bottom: 10px; /* 요소 사이의 간격 조정 */
+    align-items: flex-start;
+}
+.post-content{
+  float: left;
+  clear: both; /* float 속성을 사용한 정렬을 초기화 */
+  display: flex; 
+  margin-left:20px;
+  margin-bottom: 10px; /* 요소 사이의 간격 조정 */
+  align-items: flex-start;
+}
+
+  .sidebar-right img {
+    width: 50px; /* 이미지의 크기 설정 */
+    height: 50px; /* 이미지의 크기 설정 */
+    border-radius: 50%; /* 이미지를 동그랗게 만듦 */
+    object-fit: cover; /* 이미지 비율을 유지하면서, 지정된 너비와 높이에 맞춤 */
+}
+.add-comment textarea {
+  width: 100%;
+  height: 30px;
+}
+.user-profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 내용을 양쪽으로 분산 정렬 */
+}
+
+#user-profile img {
+  margin-right: 10px;
+}
+
+.user-profile form {
+  margin-left: auto; /* delete form을 오른쪽으로 이동 */
+}
+
+#add{
+  margin-left: auto;
+  justify-content: space-between;
+}
+
+</style>
+<body>
+  <div class="container">
+    <div class="sidebar-left">
+      <!-- 왼쪽 사이드바 콘텐츠 -->
+    </div>
+    <div class="content">
+      <div class="posts">
+          {% for post in posts[::-1] %}
+          <div class="post">
+              <div id="user-profile" class="user-profile">
+                {% if post.profile_pic %}
+                <img class="profile-pic" src="/{{ post.profile_pic }}" alt="User Profile Picture">
+                {% else %}
+                <img class="profile-pic" src="/static/image/default_pic.png" alt="User Profile Picture">
+                {% endif %}
+                  <div class="username">{{ post.username }}</div>
+              
+                  {% if post.user_id == session.user_id %}
+                <form action="/delete_post" method="POST">
+                    <input type="hidden" name="post_id" value="{{ post.post_id }}">
+                    <button type="submit" class="btn btn-primary">삭제</button>
+                </form>
+              {% endif %}
+              </div>
+              <div class="posted">
+                  <img src="\{{ post.post_image }}" alt="Post Image">           
+                  <div class="post-content"><b>{{ post.username }}</b>&nbsp;{{ post.content }}</div>
+              </div>
+              <!-- 댓글 작성 폼 --><br>
+              <div class="add-comment">
+                  <form action="/add_comment" method="POST">
+                      <input type="hidden" name="post_id" value="{{ post.post_id }}">
+                      <textarea name="comment_content" placeholder="댓글을 입력하세요..." required></textarea>
+                      
+                      <div class="add-comment">
+                        <div class="row">
+                            <div class="col text-end"> <!-- 오른쪽 정렬 -->
+                                <button id="add" type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i>댓글추가</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                      
+                  </form>
+              </div>
+              <!-- 댓글 목록 -->
+              <div class="comments">
+                  {% for comment in comments %}
+                      {% if comment.post_id == post.post_id %}
+                          <div class="comment">
+                              <span class="comment-username"><b>{{ comment.username }}</b></span>: {{ comment.comcontent }}
+                          </div>
+                      {% endif %}
+                  {% endfor %}
+              </div>
+              <!-- 게시글 삭제 버튼 -->
+          </div>
+          {% endfor %}
+      </div>
+      
+  
+    </div>
+    <div class="sidebar-right">
+        
+    </div>
+    
+    
+  
+  </div>
+</body>
+{% endblock %}

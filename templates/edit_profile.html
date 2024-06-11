@@ -1,0 +1,174 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My Page
+{% endblock %}
+
+{% block main %}
+<style>
+    /* 전체적인 레이아웃 스타일링 */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+/* 헤더 스타일링 */
+h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+/* 프로필 정보 스타일링 */
+.profile-info {
+    margin-bottom: 20px;
+}
+.profile-info p {
+    font-size: 18px;
+    color: #555;
+}
+
+/* 프로필 편집 버튼 스타일링 */
+.edit-profile-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.edit-profile-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Description 스타일링 */
+.description {
+    font-size: 16px;
+    color: #777;
+}
+
+/* 프로필 사진 스타일링 */
+.profile-picture {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 200%;
+    max-height: 200%; 
+    
+    /* width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 5px solid #ccc; 동그란 형태로 만들기 */
+    object-fit: cover; /* 이미지가 너무 크면 자르고, 너무 작으면 늘려서 보여줌 */
+}
+#imagePreview {
+    width: 250px;
+}
+
+/* My Profile 아래에 프로필 사진 배치 */
+.profile-picture-container {
+    position: relative;
+    text-align: center;
+    /* margin-bottom: 20px;
+    margin-left: 550px; */
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    align-items: center;
+    height: 200px;
+    width: 200px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.profile-container {
+    align-items: center;
+}
+</style>
+
+    <h1>Edit Profile</h1>
+    
+    <!-- 프로필 사진 수정 -->
+    <form action="/edit_profile", method="post" enctype="multipart/form-data">
+    
+    <div class="profile-container">
+        <div class="profile-picture-container">
+            <div class="profile-picture">
+                <img id="imagePreview" src="#" alt="미리보기">
+            </div>
+        </div>
+        <br>
+        <input class="d-none" id="file" type="file" name="profile_pic" onchange="previewImage(this);">
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('file').click();">
+            <i class="fas fa-upload"></i>
+        </button>
+    </div>
+        <label for="file" style="font-weight: bold;"></label>
+    
+        <br>
+        <br>
+        <br>
+
+    
+    
+
+    
+    <!-- 본인 소개글 등록 및 수정 -->
+    <div class="profile-info">
+        <h2>Description</h2>
+        
+        <textarea id="intro-text" name="description" rows="4" cols="50" placeholder="여기에 본인 소개글을 입력하세요."></textarea>
+    </div>
+    <div>
+        <button onclick="saveIntro()">Save</button>
+    </div>
+    
+    </form>
+    
+    <script>
+        // 프로필 사진 업로드 기능
+        function uploadProfilePic() {
+            const fileInput = document.getElementById('profile-pic-input');
+            const previewImage = document.getElementById('profile-pic-preview');
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onloadend = function() {
+                previewImage.src = reader.result;
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // 프로필 사진 프리뷰
+        function previewImage(input) {
+        var imagePreview = document.getElementById('imagePreview');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            imagePreview.style.display = 'none';
+        }
+        }
+        // Description 저장 기능
+        function saveIntro() {
+            const introText = document.getElementById('intro-text').value;
+            // 여기에 저장 기능을 추가.
+            alert("Description이 저장되었습니다.");
+        }
+    </script>
+    </form>
+
+
+{% endblock %}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: stretch; /* 자식 요소들이 부모 높이만큼 늘어나게 함 */
+            width: 800px; /* 전체 너비를 줄임 */
+            max-width: none; /* 적당한 최대 너비 설정 */
+            margin: auto; /* 상하좌우 자동 마진으로 가운데 정렬 */
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* 컨테이너에 그림자 추가 */
+        }
+        .login-image, .login-form {
+            flex: 2; /* 두 자식 요소가 같은 비율로 너비를 차지하도록 설정 */
+        }
+        .login-image {
+            background: url('static/image/flak.png') no-repeat center center;
+            background-size: cover;
+        }
+        .login-form {
+            max-width: 800px; /* 로그인 폼의 최대 너비를 늘림 */
+            margin: 20px;
+            padding: 40px;
+            background: #fff;
+        }
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+        .login-form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+        .login-form input[type="submit"]:hover {
+            opacity:1;
+        }
+        .login-form a {
+            color: dodgerblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-image"></div>
+        <div class="login-form">
+            <form action="/login" method="post">
+                Username: <input type="text" name="username"><br>
+                Password: <input type="password" name="password"><br>
+                <input type="submit" value="Login">
+            </form>
+            <a href="/signup">Sign up</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Portfolio
+{% endblock %}
+
+{% block main %}
+<!-- <form action="/post" method="post" enctype="multipart/form-data">
+    <input type="file" name="user_file">
+    <textarea name="content" placeholder="내용"></textarea>
+    <input type="submit" value="업로드">
+</form> -->
+
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1 class="text-center mb-4">글쓰기</h1>
+
+            <form action="/post" method="post" enctype="multipart/form-data" class="bg-light p-4 shadow rounded">
+                <div class="mb-3">
+                    <label for="file" class="form-label font-weight-bold">사진 첨부:</label>
+                    <!-- 실제 파일 입력 필드는 숨깁니다 -->
+                    <input type="file" name="user_file" id="file" class="d-none" onchange="previewImage(this);">
+                    <!-- 아이콘 버튼을 클릭하면 실제 파일 입력 필드가 활성화되도록 합니다 -->
+                    <button type="button" class="btn btn-primary" onclick="document.getElementById('file').click();">
+                        <i class="fas fa-upload"></i>
+                    </button>
+                    <img id="imagePreview" src="#" alt="미리보기" class="img-fluid d-none mt-2" style="margin: auto;">
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label font-weight-bold">내용:</label>
+                    <!-- contenteditable 속성을 사용하여 텍스트 입력 가능한 div 요소 -->
+                    <div id="editableContent" contenteditable="true" style="border: 1px solid #3f1e1e; padding: 0.375rem 0.75rem; border-radius: 0.25rem; min-height: 150px;" oninput="checkContentLengthDiv(this)"></div>
+                    <!-- 숨겨진 textarea, 서버로 전송될 내용을 담기 위함 -->
+                    <textarea id="content" name="content" rows="10" class="form-control d-none"></textarea>
+                    <p id="contentMessage" class="form-text text-danger"></p>
+                </div>
+                
+                <!-- 아이콘 버튼으로 변경 -->
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> 등록
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function checkContentLengthDiv(div) {
+    var contentMessage = document.getElementById("contentMessage");
+    var content = document.getElementById("content");
+    content.value = div.innerText; // div의 내용을 textarea에 복사
+    if (div.innerText.length > 250) {
+        contentMessage.textContent = "250자 이하로 써야 합니다";
+        div.innerText = div.innerText.substring(0, 250);
+        content.value = div.innerText; // 수정된 내용을 다시 textarea에 복사
+        contentMessage.style.color = "red";
+    } else {
+        contentMessage.textContent = "";
+    }
+}
+
+
+    function previewImage(input) {
+        var imagePreview = document.getElementById('imagePreview');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.className = 'img-fluid d-block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            imagePreview.className = 'd-none';
+        }
+    }
+</script>
+
+
+{% endblock %}

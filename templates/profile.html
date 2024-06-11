@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    MY PROFILE
+{% endblock %}
+
+{% block main %}
+<style>
+    /* 전체적인 레이아웃 스타일링 */
+    body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+/* 헤더 스타일링 */
+h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+/* 프로필 정보 스타일링 */
+.profile-info {
+    margin-bottom: 20px;
+}
+.profile-info p {
+    font-size: 18px;
+    color: #555;
+}
+
+/* 프로필 편집 버튼 스타일링 */
+#edit-profile-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.edit-profile-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Description 스타일링 */
+.description {
+    font-size: 16px;
+    color: #777;
+}
+
+/* 프로필 사진 스타일링 */
+.profile-picture {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 200%;
+    max-height: 200%; 
+    
+    /* width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 5px solid #ccc; 동그란 형태로 만들기 */
+    object-fit: cover; /* 이미지가 너무 크면 자르고, 너무 작으면 늘려서 보여줌 */
+}
+#imagePreview {
+    width: 250px;
+}
+
+/* My Profile 아래에 프로필 사진 배치 */
+.profile-picture-container {
+    position: relative;
+    text-align: center;
+    /* margin-bottom: 20px;
+    margin-left: 550px; */
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    align-items: center;
+    height: 200px;
+    width: 200px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.profile-container {
+    align-items: center;
+}
+</style>
+
+<h1>My Profile</h1>
+    <div class="profile-container">
+        <div class="profile-picture-container">
+            {% if profile_pic %}
+            <img id="imagePreview" src="{{ profile_pic }}" alt="프로필 사진" class="profile-picture">
+            {% else %}
+            <img id="imagePreview" src="/static/image/default_pic.png" alt="프로필 사진" class="profile-picture">
+            {% endif %}
+        </div>
+        <div class="profile-info">
+            <h2>Profile Info</h2>
+            <p><strong>ID:</strong> {{ username }}</p>
+            <!-- 기타 프로필 정보를 여기에 추가할 수 있습니다 -->
+        </div>
+    <div>
+        <h2>Description</h2>
+        <p>{{ description }}</p>
+        <!-- 기타 소개글 정보를 여기에 추가할 수 있습니다 -->
+    </div>
+    <a href="{{ url_for('edit_profile') }}" class="edit-profile-btn"><button class="btn btn-primary" type="button">Edit Profile</button></a>
+    
+{% endblock %}
