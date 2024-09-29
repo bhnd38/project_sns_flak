@@ -1,14 +1,17 @@
-Description : Python과 Flask를 통해 구현한 SNS 서비스 프로젝트입니다.
+Description : Python과 Flask를 통해 구현한 소셜 미디어 팀 프로젝트입니다.
 
 서비스 명 : Flak
 
-팀원 : 권혁빈
-     : 전인호
-     : 유성운
-     : 장상협
+팀명 : Flak
+
+팀원
+  - 권혁빈
+  - 전인호
+  - 유성운
+  - 장상협 
 
 목표
-  - Instagram을 레퍼런스로 하여 유사한 SNS 서비스 형태를 제작한다.
+  - Instagram을 레퍼런스로 하여 유사한 소셜 미디어 서비스 형태를 제작한다.
     
 
 주요 기능
